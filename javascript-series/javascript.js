@@ -68,16 +68,94 @@ const symbol2 = Symbol();
 //   else if (isBuzz) console.log("Buzz");
 //   else console.log(`the value is ${i}`);
 // }
-for (let i = 1; i <= 100; i++) {
-  console.log(
-    `${
-      i % 3 === 0 && i % 5 === 0
-        ? `FizzBuzz`
-        : i % 3 === 0
-          ? "Fizz"
-          : i % 5 === 0
-            ? "Buzz"
-            : `the value is: ${i}`
-    }`,
-  );
+// for (let i = 1; i <= 100; i++) {
+//   console.log(
+//     `${
+//       i % 3 === 0 && i % 5 === 0
+//         ? `FizzBuzz`
+//         : i % 3 === 0
+//           ? "Fizz"
+//           : i % 5 === 0
+//             ? "Buzz"
+//             : `the value is: ${i}`
+//     }`,
+//   );
+// }
+
+// Loops
+
+// 1. Conventional for loop
+for (let i = 0; i < 10; i++) {
+  // console.log(i);
 }
+
+for (let i = 10; i > 0; i--) {
+  // console.log(i);
+}
+
+// 2. For of loop
+const names = ["John", "Jane", "Jack", "Jill"];
+
+for (const name of names) {
+  // console.log(name);
+}
+
+// 3. For in loop
+const person = {
+  firstName: "John",
+  lastName: "Doe",
+  age: 30,
+};
+
+for (const key in person) {
+  // console.log(`${key}: ${person[key]}`);
+}
+
+// 4. While loop
+let i = 0;
+while (i < 10) {
+  // console.log(i);
+  i++;
+}
+
+// 5. Do while loop
+let j = 0;
+do {
+  // console.log(j);
+  j++;
+} while (j < 10);
+
+// FUNCTIONS
+// 1. Function declaration
+greet("John");
+function greet(name = "world!") {
+  console.log(`Hello ${name}`);
+}
+// 2. Function expression
+const greet2 = function (name = "default 2") {
+  console.log(`Hello 2 ${name}`);
+};
+greet2();
+
+// 3. Arrow function
+const greet3 = (name = "default 3") => {
+  console.log(`Hello 3 ${name}`);
+  return `Hello 3: ${name}`;
+};
+const val = greet3();
+console.log(val, "val");
+greet();
+
+// 4. IIFE (Immediately Invoked Function Expression)
+(function (name = "default 4") {
+  console.log(`Hello 4 ${name}`);
+})("John");
+
+// Assessment: Write a function that takes in 2 numbers and consoles the sum of those numbers. If either of the numbers is not a number, return "Invalid input".
+
+const addition = (num1, num2) => console.log(num1 + num2);
+
+addition(1, 4);
+addition(10, 20);
+addition(-10, 10);
+addition(1, "4"); // weird output because of type coercion.
