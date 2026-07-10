@@ -1,4 +1,4 @@
-import { useState, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import "./App.css";
 
 function App() {
@@ -40,6 +40,39 @@ function App() {
 
 export default App;
 
+type DataType = {
+  name: string;
+  age: number;
+  track: "mobile" | "web";
+  country: string;
+};
+const data: Array<DataType> = [
+  {
+    age: 10,
+    country: "Nigeria",
+    name: "Ezekiel",
+    track: "mobile",
+  },
+  {
+    age: 100,
+    country: "Canada",
+    name: "Samuel",
+    track: "web",
+  },
+  {
+    age: 40,
+    country: "London",
+    name: "Aishatu",
+    track: "web",
+  },
+  {
+    age: 12,
+    country: "Afghanistan",
+    name: "Farouk",
+    track: "mobile",
+  },
+];
+
 const GreetingsApp = () => {
   return (
     <div
@@ -49,49 +82,15 @@ const GreetingsApp = () => {
         gap: 30,
       }}
     >
-      <Greetings
-        studentInfo={{
-          age: 10,
-          country: "Nigeria",
-          name: "Ezekiel",
-          track: "mobile",
-        }}
-      />
-      <Greetings
-        studentInfo={{
-          age: 100,
-          country: "Canada",
-          name: "Samuel",
-          track: "web",
-        }}
-      />
-      <Greetings
-        studentInfo={{
-          age: 40,
-          country: "London",
-          name: "Aishatu",
-          track: "web",
-        }}
-      />
-      <Greetings
-        studentInfo={{
-          age: 12,
-          country: "Afghanistan",
-          name: "Farouk",
-          track: "mobile",
-        }}
-      />
+      {data.map((item, index) => {
+        return <Greetings key={index} studentInfo={item} />;
+      })}
     </div>
   );
 };
 
 type Props = {
-  studentInfo: {
-    name: string;
-    age: number;
-    track: "mobile" | "web";
-    country: string;
-  };
+  studentInfo: DataType;
 };
 
 const Greetings = (props: Props) => {
@@ -155,6 +154,78 @@ const AssessmentDisplay = ({ counter, setCounter }: DisplayType) => {
         Child Decrease counter
       </button>
       Child: {counter}
+    </div>
+  );
+};
+
+type StoreType = {
+  id: number;
+  title: string;
+  price: number;
+  description: string;
+  category: string;
+  image: string;
+  rating: {
+    rate: number;
+    count: number;
+  };
+};
+export const FakeStoreApiParentComponent = () => {
+  const [store, setStore] = useState<Array<StoreType>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetcher = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch("https://fakestoreapi.com/products");
+        const data: Array<StoreType> = await res.json();
+        setStore(data);
+      } catch (error) {
+        console.log(error, "Error");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetcher();
+  }, []);
+
+  return <FakeStoreApiChildComponent isLoading={isLoading} store={store} />;
+};
+
+type ChildProps = {
+  isLoading: boolean;
+  store: Array<StoreType>;
+};
+
+const componentFnc = (store: StoreType[]) => {
+  return store.map((item, index) => <Render key={index} item={item} />);
+};
+
+const FakeStoreApiChildComponent = ({ isLoading, store }: ChildProps) => {
+  if (isLoading) return <p>Loading...</p>;
+
+  const component = store.map((item, index) => {
+    return <Render key={index} item={item} />;
+  });
+
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 20 }}>
+      {component}
+      {componentFnc(store)}
+    </div>
+  );
+};
+
+const Render = ({ item }: { item: StoreType }) => {
+  return (
+    <div key={item.id} style={{ border: "1px solid black" }}>
+      <p>Title: {item.title}</p>
+      <p>Price: {item.price}</p>
+      <img src={item.image} alt={item.title} width={200} />
+      <p>Category: {item.category}</p>
+      <p>Description: {item.description}</p>
     </div>
   );
 };

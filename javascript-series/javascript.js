@@ -163,3 +163,16 @@
 // // addition(10, 20);
 // // addition(-10, 10);
 // // addition(1, "4"); // weird output because of type coercion.
+
+const power = (val1, power) => {
+  const result = val1 ** power;
+
+  const addition = () => {
+    const addedResult = result + val1 + val2;
+    console.log(addedResult);
+  };
+
+  return result;
+};
+
+console.log(power(2, 5));
