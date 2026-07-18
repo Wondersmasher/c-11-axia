@@ -229,3 +229,70 @@ const Render = ({ item }: { item: StoreType }) => {
     </div>
   );
 };
+
+export const UnderstandingUseEffect = () => {
+  // const handleUseEffect = () => {
+  //   console.log("This is the handler!");
+  // };
+
+  const [count, setCount] = useState(0);
+  const [count2, setCount2] = useState(1);
+
+  // useEffect(handleUseEffect); // hardly used
+  useEffect(() => {
+    console.log(
+      "This is the handler!. This should run only when count changes",
+    );
+  }, [count]);
+
+  useEffect(() => {
+    const fetcher = async () => {
+      try {
+        const res = await fetch("https://fakestoreapi.com/products");
+        const data: Array<StoreType> = await res.json();
+        console.log(data);
+      } catch (error) {
+        console.log(error, "Error");
+      } finally {
+        console.log("finally");
+      }
+    };
+
+    fetcher();
+  }, []);
+
+  // 1. When you don't pass dependency Array, it reruns on every rerender
+  // 2. When you pass an empty dependency array, it runs only on initial render
+  // 3. When you pass a dependency array(s), it reruns when the dependency changes
+
+  // console.log("This should just run once");
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: 20,
+        alignItems: "center",
+      }}
+    >
+      <div
+        onClick={() => {
+          setCount((prev) => prev + 1);
+        }}
+      >
+        Increase count
+      </div>
+      <div
+        onClick={() => {
+          setCount2((prev) => prev * 2);
+        }}
+      >
+        Increase count 2
+      </div>
+      <div>
+        <p>Count: {count}</p>
+        <p>Count 2: {count2}</p>
+      </div>
+    </div>
+  );
+};
