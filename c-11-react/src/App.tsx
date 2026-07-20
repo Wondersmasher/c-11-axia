@@ -1,5 +1,7 @@
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import "./App.css";
+import { useFetch } from "./hooks/useFetch";
+// import { useWindowSize } from "./hooks/useWindowSize";
 
 function App() {
   const [counter, setCounter] = useState<number>(100);
@@ -171,27 +173,16 @@ type StoreType = {
   };
 };
 export const FakeStoreApiParentComponent = () => {
-  const [store, setStore] = useState<Array<StoreType>>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [store, isLoading] = useFetch();
+  // const [width, height] = useWindowSize();
 
-  useEffect(() => {
-    const fetcher = async () => {
-      setIsLoading(true);
-      try {
-        const res = await fetch("https://fakestoreapi.com/products");
-        const data: Array<StoreType> = await res.json();
-        setStore(data);
-      } catch (error) {
-        console.log(error, "Error");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetcher();
-  }, []);
-
-  return <FakeStoreApiChildComponent isLoading={isLoading} store={store} />;
+  // console.log(width, height, "width and height");
+  return (
+    <FakeStoreApiChildComponent
+      isLoading={isLoading as boolean}
+      store={store as Array<StoreType>}
+    />
+  );
 };
 
 type ChildProps = {
@@ -245,22 +236,24 @@ export const UnderstandingUseEffect = () => {
     );
   }, [count]);
 
-  useEffect(() => {
-    const fetcher = async () => {
-      try {
-        const res = await fetch("https://fakestoreapi.com/products");
-        const data: Array<StoreType> = await res.json();
-        console.log(data);
-      } catch (error) {
-        console.log(error, "Error");
-      } finally {
-        console.log("finally");
-      }
-    };
+  // useEffect(() => {
+  //   const fetcher = async () => {
+  //     try {
+  //       const res = await fetch("https://fakestoreapi.com/products");
+  //       const data: Array<StoreType> = await res.json();
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.log(error, "Error");
+  //     } finally {
+  //       console.log("finally");
+  //     }
+  //   };
 
-    fetcher();
-  }, []);
+  //   fetcher();
+  // }, []);
 
+  const [store, isLoading] = useFetch();
+  console.log(store, isLoading);
   // 1. When you don't pass dependency Array, it reruns on every rerender
   // 2. When you pass an empty dependency array, it runs only on initial render
   // 3. When you pass a dependency array(s), it reruns when the dependency changes
