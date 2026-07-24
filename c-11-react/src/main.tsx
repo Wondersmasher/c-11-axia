@@ -1,9 +1,12 @@
 // import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { FakeStoreApiParentComponent } from "./App";
+// import { FakeStoreApiParentComponent } from "./App";
+import { Forms } from "./Forms";
 createRoot(document.getElementById("root")!).render(
-  <FakeStoreApiParentComponent />,
+  <Forms />,
+
+  // <FakeStoreApiParentComponent />,
   // <StrictMode>
   //   {/* <Assessment />, */}
   //   {/* <FakeStoreApiParentComponent />

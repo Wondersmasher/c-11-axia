@@ -33,6 +33,6 @@ const useFetch = () => {
     fetcher();
   }, []);
 
-  return [store, isLoading]; //=> same with the return store:store, isLoading:isLoading
+  return { store, isLoading }; //=> same with the return store:store, isLoading:isLoading
 };
 export { useFetch };

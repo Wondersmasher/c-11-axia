@@ -173,7 +173,7 @@ type StoreType = {
   };
 };
 export const FakeStoreApiParentComponent = () => {
-  const [store, isLoading] = useFetch();
+  const { store, isLoading } = useFetch();
   // const [width, height] = useWindowSize();
 
   // console.log(width, height, "width and height");
@@ -252,7 +252,7 @@ export const UnderstandingUseEffect = () => {
   //   fetcher();
   // }, []);
 
-  const [store, isLoading] = useFetch();
+  const { store, isLoading } = useFetch();
   console.log(store, isLoading);
   // 1. When you don't pass dependency Array, it reruns on every rerender
   // 2. When you pass an empty dependency array, it runs only on initial render
